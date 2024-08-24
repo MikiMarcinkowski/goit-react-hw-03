@@ -1,11 +1,10 @@
 // import { useState } from 'react'
-import Title from './components/Title/Title'
-import ContactForm from './components/ContactForm/ContactForm';
-import './App.css'
-import { useState } from 'react';
-import ContactList from './components/ContactList/ContactList';
-import SearchBox from './components/SearchBox/SearchBox';
-
+import Title from "./components/Title/Title";
+import ContactForm from "./components/ContactForm/ContactForm";
+import "./App.css";
+import { useState } from "react";
+import ContactList from "./components/ContactList/ContactList";
+import SearchBox from "./components/SearchBox/SearchBox";
 
 function App() {
   const [contacts, setContacts] = useState([
@@ -15,16 +14,27 @@ function App() {
     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
   ]);
 
+  const [searchContacts, setSearchContacts] = useState("");
+
+  const search = (searchName) => {
+    setSearchContacts(
+     searchName
+    );
+  };
+
+const filteredContacts = contacts.filter((contact) =>
+  contact.name.toLowerCase().includes(searchContacts.toLowerCase())
+);
 
 
   return (
     <>
       <Title title="Phonebook" />
       <ContactForm />
-      <SearchBox />
-      <ContactList contacts={contacts}/>
+      <SearchBox searchContacts={searchContacts} onSearchChange={search} />
+      <ContactList contacts={filteredContacts} />
     </>
   );
 }
 
-export default App
+export default App;

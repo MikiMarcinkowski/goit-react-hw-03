@@ -16,3 +16,8 @@ const SearchBox = ({ searchContacts, onSearchChange }) => {
 };
 
 export default SearchBox;
+
+SearchBox.propTypes = {
+  searchContacts: PropTypes.string,
+  onSearchChange: PropTypes.func,
+};
