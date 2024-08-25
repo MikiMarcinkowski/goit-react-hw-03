@@ -1,63 +1,84 @@
-// import React from "react";
-import { Formik } from "formik";
+import PropTypes from "prop-types";
 
-const ContactForm = () => (
-  <div>
-    <h1>Anywhere in your app!</h1>
-    <Formik
-      initialValues={{ email: "", password: "" }}
-      validate={(values) => {
-        const errors = {};
-        if (!values.email) {
-          errors.email = "Required";
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-          errors.email = "Invalid email address";
-        }
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-          />
-          {errors.email && touched.email && errors.email}
-          <input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-          />
-          {errors.password && touched.password && errors.password}
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
-        </form>
-      )}
-    </Formik>
-  </div>
-);
+// import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+const ContactForm = ({ onData }) => {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      number: "",
+      // email: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .min(3, "Must be 3 characters or more")
+        .max(50, "Must be 50 characters or less")
+        .required("Required"),
+      number: Yup.string()
+        .min(3, "Must be 3 characters or more")
+        .max(50, "Must be 50 characters or less")
+        .required("Required"),
+      // email: Yup.string().email("Invalid email address").required("Required"),
+    }),
+    onSubmit: (values) => {
+      onData(values);
+      const alertm = () => {
+        prompt(JSON.stringify(values, null, 2));
+      };
+      console.log(alertm);
+      return alertm();
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.name}
+      />
+      {formik.touched.name && formik.errors.name ? (
+        <div>{formik.errors.name}</div>
+      ) : null}
+
+      <label htmlFor="number">Number</label>
+      <input
+        id="number"
+        name="number"
+        type="text"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.number}
+      />
+      {formik.touched.number && formik.errors.number ? (
+        <div>{formik.errors.number}</div>
+      ) : null}
+
+      {/* <label htmlFor="email">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.email}
+      />
+      {formik.touched.email && formik.errors.email ? (
+        <div>{formik.errors.email}</div>
+      ) : null} */}
+
+      <button type="submit">Add contact</button>
+    </form>
+  );
+};
 
 export default ContactForm;
+
+ContactForm.propTypes = {
+  onData: PropTypes.func.isRequired, // onData jest funkcją i jest wymagana
+};

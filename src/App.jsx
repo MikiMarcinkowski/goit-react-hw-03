@@ -6,6 +6,9 @@ import { useState } from "react";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 
+import { nanoid } from "nanoid";
+//model.id = nanoid(); //=> "V1StGXR8_Z5jdHi6B-myT"
+
 function App() {
   const [contacts, setContacts] = useState([
     { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -16,23 +19,30 @@ function App() {
 
   const [searchContacts, setSearchContacts] = useState("");
 
+  const dataFromContactForm = (data) => {
+    const newContact = { id: nanoid(), ...data };
+ 
+
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+ };
+
   const search = (searchName) => {
-    setSearchContacts(
-     searchName
-    );
+    setSearchContacts(searchName);
   };
 
-const filteredContacts = contacts.filter((contact) =>
-  contact.name.toLowerCase().includes(searchContacts.toLowerCase())
-);
-
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searchContacts.toLowerCase())
+  );
 
   return (
     <>
       <Title title="Phonebook" />
-      <ContactForm />
+      <ContactForm onData={dataFromContactForm} />
       <SearchBox searchContacts={searchContacts} onSearchChange={search} />
-      <ContactList contacts={filteredContacts} />
+      <ContactList
+        contacts={filteredContacts}
+        // contacts={contacts}
+      />
     </>
   );
 }
