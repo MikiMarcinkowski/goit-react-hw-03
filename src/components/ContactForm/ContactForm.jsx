@@ -11,10 +11,12 @@ const ContactForm = ({ onData }) => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
+        .matches(/^[A-Za-z\s]+$/, "Name can only contain letters and spaces")
         .min(3, "Must be 3 characters or more")
         .max(50, "Must be 50 characters or less")
         .required("Required"),
       number: Yup.string()
+        .matches(/^\d+$/, "Phone number can only contain digits")
         .min(3, "Must be 3 characters or more")
         .max(50, "Must be 50 characters or less")
         .required("Required"),
@@ -35,6 +37,8 @@ const ContactForm = ({ onData }) => {
         id="name"
         name="name"
         type="text"
+        pattern="[A-Za-z\s]+" // Akceptuje tylko litery i spacje
+        inputMode="text" // Wyświetla klawiaturę tekstową na urządzeniach mobilnych
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.name}
@@ -50,7 +54,9 @@ const ContactForm = ({ onData }) => {
       <input
         id="number"
         name="number"
-        type="text"
+        type="tel"
+        pattern="\d+" // Akceptuje tylko cyfry
+        inputMode="tel" // Wyświetla klawiaturę numeryczną na urządzeniach mobilnych
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.number}
