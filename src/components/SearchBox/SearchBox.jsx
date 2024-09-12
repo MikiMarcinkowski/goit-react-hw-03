@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import css from "./SearchBox.module.css"; // Import stylów
+import css from "./SearchBox.module.css";
 
 const SearchBox = ({ searchContacts, onSearchChange }) => {
   return (
