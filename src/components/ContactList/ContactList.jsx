@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
+import css from "./ContactList.module.css"; // Import stylów
 
 const ContactList = ({ contacts, onDelete }) => {
   return (
-    <>
-      <ul>
-        {contacts.map(({ id, name, number }) => (
-          <li key={id}>
+    <ul className={css.contactList}>
+      {contacts.map(({ id, name, number }) => (
+        <li key={id} className={css.contactItem}>
+          <span className={css.contactName}>
             {name}: {number}
-            <button onClick={() => onDelete(id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </>
+          </span>
+          <button onClick={() => onDelete(id)} className={css.deleteButton}>
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 };
 
@@ -25,5 +28,5 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ).isRequired,
-  onDelete: PropTypes.func,
+  onDelete: PropTypes.func.isRequired,
 };

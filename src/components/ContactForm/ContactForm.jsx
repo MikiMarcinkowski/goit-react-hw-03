@@ -1,15 +1,13 @@
 import PropTypes from "prop-types";
-
-// import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import css from "./ContactForm.module.css";
 
 const ContactForm = ({ onData }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
       number: "",
-      // email: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -20,22 +18,19 @@ const ContactForm = ({ onData }) => {
         .min(3, "Must be 3 characters or more")
         .max(50, "Must be 50 characters or less")
         .required("Required"),
-      // email: Yup.string().email("Invalid email address").required("Required"),
     }),
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       onData(values);
-      const alertm = () => {
-        alert(JSON.stringify(values, null, 2));
-      };
-      console.log(alertm);
+      // alert(JSON.stringify(values, null, 2));
       resetForm();
-      return alertm();
-      
     },
   });
+
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="name">Name</label>
+    <form onSubmit={formik.handleSubmit} className={css.contactForm}>
+      <label htmlFor="name" className={css.formLabel}>
+        Name
+      </label>
       <input
         id="name"
         name="name"
@@ -43,12 +38,15 @@ const ContactForm = ({ onData }) => {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.name}
+        className={css.formInput}
       />
       {formik.touched.name && formik.errors.name ? (
-        <div>{formik.errors.name}</div>
+        <div className={css.formError}>{formik.errors.name}</div>
       ) : null}
 
-      <label htmlFor="number">Number</label>
+      <label htmlFor="number" className={css.formLabel}>
+        Number
+      </label>
       <input
         id="number"
         name="number"
@@ -56,25 +54,15 @@ const ContactForm = ({ onData }) => {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.number}
+        className={css.formInput}
       />
       {formik.touched.number && formik.errors.number ? (
-        <div>{formik.errors.number}</div>
+        <div className={css.formError}>{formik.errors.number}</div>
       ) : null}
 
-      {/* <label htmlFor="email">Email Address</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-      />
-      {formik.touched.email && formik.errors.email ? (
-        <div>{formik.errors.email}</div>
-      ) : null} */}
-
-      <button type="submit">Add contact</button>
+      <button type="submit" className={css.formButton}>
+        Add contact
+      </button>
     </form>
   );
 };
@@ -82,5 +70,5 @@ const ContactForm = ({ onData }) => {
 export default ContactForm;
 
 ContactForm.propTypes = {
-  onData: PropTypes.func.isRequired, // onData jest funkcją i jest wymagana
+  onData: PropTypes.func.isRequired,
 };

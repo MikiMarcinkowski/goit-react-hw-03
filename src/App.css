@@ -5,3 +5,18 @@
   text-align: center;
 }
 
+.appContainer {
+  background-color: #000000; 
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding: 20px; */
+}
+
+.appTitle {
+  font-size: 2.5rem;
+  color: #ff7700; 
+  margin-bottom: 20px;
+}

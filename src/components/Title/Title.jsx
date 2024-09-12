@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
+import css from "./Title.module.css";
 
 const Title = ({ title }) => {
-  return <h1>{title}</h1>;
+  return <h1 className={css.title}>{title}</h1>;
 };
 
 export default Title;
