@@ -22,13 +22,15 @@ const ContactForm = ({ onData }) => {
         .required("Required"),
       // email: Yup.string().email("Invalid email address").required("Required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, {resetForm}) => {
       onData(values);
       const alertm = () => {
-        prompt(JSON.stringify(values, null, 2));
+        alert(JSON.stringify(values, null, 2));
       };
       console.log(alertm);
+      resetForm();
       return alertm();
+      
     },
   });
   return (
